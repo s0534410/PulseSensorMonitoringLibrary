@@ -1,12 +1,19 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
 
+task buildInfo {
+    def cmd = "git rev-parse --short HEAD"
+    def proc = cmd.execute()
+    ext.revision = proc.text.trim()
+}
+
 sourceCompatibility = 1.7
-version = '1.0'
+version = buildInfo.revision
+
 jar {
     manifest {
-        attributes 'Implementation-Title': 'Gradle Quickstart',
-                   'Implementation-Version': version
+        attributes 'Implementation-Title': 'PulseSensorLib',
+                   'Implementation-Version': buildInfo.revision
     }
 }
 
