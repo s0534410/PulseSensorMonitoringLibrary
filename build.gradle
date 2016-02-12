@@ -1,5 +1,6 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
+apply plugin: 'maven-publish'
 
 task buildInfo {
     def cmd = "git rev-parse --short HEAD"
@@ -8,12 +9,12 @@ task buildInfo {
 }
 
 sourceCompatibility = 1.7
-version = buildInfo.revision
+version = 0.1
 
 jar {
     manifest {
         attributes 'Implementation-Title': 'PulseSensorLib',
-                   'Implementation-Version': buildInfo.revision
+                   'Implementation-Version': version
     }
 }
 
@@ -38,5 +39,17 @@ uploadArchives {
        flatDir {
            dirs 'repos'
        }
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+        	groupId 'de.htw.icw.pulsesensorlib'
+            artifactId 'PulseSensorLib'
+            version version
+            
+            from components.java
+        }
     }
 }
