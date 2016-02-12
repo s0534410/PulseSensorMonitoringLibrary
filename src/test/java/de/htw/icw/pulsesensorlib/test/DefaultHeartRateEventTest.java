@@ -22,13 +22,16 @@ import de.htw.icw.pulsesensorlib.DefaultHeartRateMonitor;
 public class DefaultHeartRateEventTest {
 
 	private HeartRateEvent heartRateEvent;
+	private static final double HIGH_HEART_RATE = 120;
+	private static final double LOW_HEART_RATE = 60;
+	private static final double WAITING_TIME_IN_MS = 5000;
 
 	@Mock
 	private HeartRateListener mockHeartRateListener;
 
 	@Before
 	public void setUp() {
-		heartRateEvent = new DefaultHeartRateEvent();
+		heartRateEvent = new DefaultHeartRateEvent(HIGH_HEART_RATE,LOW_HEART_RATE,WAITING_TIME_IN_MS);
 	}
 
 	@Test
@@ -52,7 +55,7 @@ public class DefaultHeartRateEventTest {
 		HeartRateMonitor heartRateMonitor = new DefaultHeartRateMonitor();
 		heartRateMonitor.subscribe(heartRateEvent);
 
-		for (int i = 0; i <= 5000; i += 1000) {
+		for (int i = 0; i <= WAITING_TIME_IN_MS; i += 1000) {
 
 			try {
 				heartRateMonitor.addHeartRate(0, i);
@@ -68,8 +71,6 @@ public class DefaultHeartRateEventTest {
 
 	@Test
 	public void onHighPulseShouldBeExecutedEveryTimeIfThereIsAHighPulse() {
-
-		final int HIGH_HEART_RATE = 300;
 
 		heartRateEvent.subscribe(mockHeartRateListener);
 
@@ -89,8 +90,6 @@ public class DefaultHeartRateEventTest {
 
 	@Test
 	public void onLowPulseShouldBeExecutedEveryTimeThereIsALowPulse() {
-
-		final int LOW_HEART_RATE = 10;
 
 		heartRateEvent.subscribe(mockHeartRateListener);
 
