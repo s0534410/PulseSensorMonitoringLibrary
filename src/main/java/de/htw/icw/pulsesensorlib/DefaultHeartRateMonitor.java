@@ -19,10 +19,10 @@ public class DefaultHeartRateMonitor implements HeartRateMonitor {
 	 * also triggers the listeners.
 	 * 
 	 * @param heartrate
-	 *            the measured heartrate (has to be > 0)
+	 *            the measured heartrate (has to be &gt; 0)
 	 * @return the timestamp at the time the heartrate was added
 	 * @throws NoNegativeHeartRatesPossibleException
-	 *             If a heartrate < 0 is added
+	 *             If a heartrate &lt; 0 is added
 	 */
 	@Override
 	public long addHeartRate(double heartrate)
@@ -45,10 +45,10 @@ public class DefaultHeartRateMonitor implements HeartRateMonitor {
 	 * adds given heartrate-timestamp tuple and triggers the listeners.
 	 * 
 	 * @param heartrate
-	 *            the measured heartrate (has to be > 0)
+	 *            the measured heartrate (has to be &gt; 0)
 	 * @return the timestamp at the time the heartrate was added
 	 * @throws NoNegativeHeartRatesPossibleException
-	 *             If a heartrate < 0 is added
+	 *             If a heartrate &lt; 0 is added
 	 */
 	@Override
 	public long addHeartRate(double heartrate, long timestamp)

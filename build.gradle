@@ -16,6 +16,7 @@ jar {
         attributes 'Implementation-Title': 'PulseSensorLib',
                    'Implementation-Version': version
     }
+    from sourceSets.main.allSource
 }
 
 repositories {
