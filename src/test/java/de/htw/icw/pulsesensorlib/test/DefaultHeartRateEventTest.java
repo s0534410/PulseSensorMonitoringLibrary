@@ -67,7 +67,7 @@ public class DefaultHeartRateEventTest {
 	}
 
 	@Test
-	public void onHighPulseShouldBeExecutedEveryTimeIfTheirIsAHighPulse() {
+	public void onHighPulseShouldBeExecutedEveryTimeIfThereIsAHighPulse() {
 
 		final int HIGH_HEART_RATE = 300;
 
@@ -84,11 +84,11 @@ public class DefaultHeartRateEventTest {
 			e.printStackTrace();
 		}
 
-		verify(mockHeartRateListener, times(2)).onHighPulse();
+		verify(mockHeartRateListener, times(2)).onHighPulse(heartRateMonitor.getLastHeartRate());
 	}
 
 	@Test
-	public void onLowPulseShouldBeExecutedEveryTimeTheirIsALowPulse() {
+	public void onLowPulseShouldBeExecutedEveryTimeThereIsALowPulse() {
 
 		final int LOW_HEART_RATE = 10;
 
@@ -105,7 +105,7 @@ public class DefaultHeartRateEventTest {
 			e.printStackTrace();
 		}
 
-		verify(mockHeartRateListener, times(2)).onLowPulse();
+		verify(mockHeartRateListener, times(2)).onLowPulse(heartRateMonitor.getLastHeartRate());
 
 	}
 

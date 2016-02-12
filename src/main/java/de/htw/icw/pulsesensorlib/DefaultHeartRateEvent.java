@@ -37,7 +37,7 @@ public class DefaultHeartRateEvent implements HeartRateEvent {
 	private void testForOnLowPulse(HeartRateMonitor heartRateMonitor) {
 
 		if (heartRateMonitor.getLastHeartRate() <= LOW_HEART_RATE) {
-			notifyOnLowPulse();
+			notifyOnLowPulse(heartRateMonitor.getLastHeartRate());
 		}
 
 	}
@@ -45,20 +45,20 @@ public class DefaultHeartRateEvent implements HeartRateEvent {
 	private void testForOnHighPulse(HeartRateMonitor heartRateMonitor) {
 
 		if (heartRateMonitor.getLastHeartRate() >= HIGH_HEART_RATE) {
-			notifyOnHighPulse();
+			notifyOnHighPulse(heartRateMonitor.getLastHeartRate());
 		}
 
 	}
 
-	private void notifyOnHighPulse() {
+	private void notifyOnHighPulse(double pulse) {
 		for (HeartRateListener heartRateListener : subscribers) {
-			heartRateListener.onHighPulse();
+			heartRateListener.onHighPulse(pulse);
 		}
 	}
 
-	private void notifyOnLowPulse() {
+	private void notifyOnLowPulse(double pulse) {
 		for (HeartRateListener heartRateListener : subscribers) {
-			heartRateListener.onLowPulse();
+			heartRateListener.onLowPulse(pulse);
 		}
 	}
 

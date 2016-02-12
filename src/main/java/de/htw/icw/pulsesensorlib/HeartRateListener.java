@@ -2,8 +2,8 @@ package de.htw.icw.pulsesensorlib;
 
 public interface HeartRateListener {
 	
-    void onHighPulse();
-    void onLowPulse();    
+    void onHighPulse(double pulse);
+    void onLowPulse(double pulse);    
     void onNoPulse();
     void onDisconnected();
     void onPulseIncreased();
