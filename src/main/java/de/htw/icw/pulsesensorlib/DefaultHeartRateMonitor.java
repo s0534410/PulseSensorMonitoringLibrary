@@ -3,6 +3,15 @@ package de.htw.icw.pulsesensorlib;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Default implementation of the HeartRateMonitor interface. The
+ * HeartRateMonitor collects the heart rates (see
+ * {@link DefaultHeartRateMonitor#addHeartRate(double) addHeartRate}) and obtains
+ * different methods to easily proceed the informations.
+ * 
+ * @author s0534410
+ *
+ */
 public class DefaultHeartRateMonitor implements HeartRateMonitor {
 
 	/** list with all measured heartrates */

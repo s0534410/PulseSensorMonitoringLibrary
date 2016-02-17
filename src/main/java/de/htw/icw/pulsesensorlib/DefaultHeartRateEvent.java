@@ -3,6 +3,15 @@ package de.htw.icw.pulsesensorlib;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Default implementation of the HeartRateEvent interface. (see
+ * {@link HeartRateEvent}). It makes use of the observer pattern. Classes which
+ * implement the {@link HeartRateListener} can subscribe to this class and will
+ * thereby be notified of occurred events. This class should subscribe to the
+ * {@link HeartRateMonitor} by which it is notified of new added heart rates.
+ * 
+ * @author s0534410
+ */
 public class DefaultHeartRateEvent implements HeartRateEvent {
 
 	private double highHeartRate;
@@ -16,11 +25,13 @@ public class DefaultHeartRateEvent implements HeartRateEvent {
 	 * are executed.
 	 * 
 	 * @param highHeartRate
-	 *            - sets which heartrate is interpreted as a high heartrate (see {@link HeartRateListener#onHighPulse(double) onHighPulse}
+	 *            sets which heartrate is interpreted as a high heartrate (see
+	 *            {@link HeartRateListener#onHighPulse(double) onHighPulse})
 	 * @param lowHeartRate
-	 *            - sets which heartrate is interpreted as a low heartrate (see {@link HeartRateListener#onLowPulse(double) onLowPulse}
+	 *            sets which heartrate is interpreted as a low heartrate (see
+	 *            {@link HeartRateListener#onLowPulse(double) onLowPulse})
 	 * @param waitingTimeInMilliseconds
-	 *            - set how long to wait until the
+	 *            set how long to wait until the
 	 *            {@link HeartRateListener#onNoPulse() onNoPulse} method is
 	 *            executed
 	 */
