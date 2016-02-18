@@ -25,13 +25,17 @@ public class DefaultHeartRateEventTest {
 	private static final double HIGH_HEART_RATE = 120;
 	private static final double LOW_HEART_RATE = 60;
 	private static final double WAITING_TIME_IN_MS = 5000;
+	private static final double INCREASING_DECREASING_TRESHOLD_PERCENTAGE = 50;
+	private static final double OBSERVATION_TIME = 10000;
 
 	@Mock
 	private HeartRateListener mockHeartRateListener;
 
 	@Before
 	public void setUp() {
-		heartRateEvent = new DefaultHeartRateEvent(HIGH_HEART_RATE,LOW_HEART_RATE,WAITING_TIME_IN_MS);
+		heartRateEvent = new DefaultHeartRateEvent(HIGH_HEART_RATE,
+				LOW_HEART_RATE, WAITING_TIME_IN_MS, OBSERVATION_TIME,
+				INCREASING_DECREASING_TRESHOLD_PERCENTAGE);
 	}
 
 	@Test
@@ -85,7 +89,8 @@ public class DefaultHeartRateEventTest {
 			e.printStackTrace();
 		}
 
-		verify(mockHeartRateListener, times(2)).onHighPulse(heartRateMonitor.getLastHeartRate());
+		verify(mockHeartRateListener, times(2)).onHighPulse(
+				heartRateMonitor.getLastHeartRate());
 	}
 
 	@Test
@@ -104,12 +109,12 @@ public class DefaultHeartRateEventTest {
 			e.printStackTrace();
 		}
 
-		verify(mockHeartRateListener, times(2)).onLowPulse(heartRateMonitor.getLastHeartRate());
+		verify(mockHeartRateListener, times(2)).onLowPulse(
+				heartRateMonitor.getLastHeartRate());
 
 	}
 
 	@Test
-	@Ignore
 	public void onPulseInscreasedShouldBeExecutedOnIncreasingPulse() {
 
 		heartRateEvent.subscribe(mockHeartRateListener);
@@ -117,26 +122,53 @@ public class DefaultHeartRateEventTest {
 		HeartRateMonitor heartRateMonitor = new DefaultHeartRateMonitor();
 		heartRateMonitor.subscribe(heartRateEvent);
 
-		// add heartrates which are slowly increasing (from 70 to 80) over an
-		// interval of 5 seconds to our monitor
-		int heartrate = 70;		
+		// add heartrates which are slowly increasing from 60 to 90 (= 50%) over
+		// an
+		// interval of 10 seconds to our monitor
+		int start_heartrate = 60;
 		int start_time = 0;
-		int end_time = 5000;
-		
-		for(int i=0; i <= start_time; i += end_time){
-			
-			try{
-				heartRateMonitor.addHeartRate(heartrate+2, i);
-			}catch(NoNegativeHeartRatesPossibleException ex){
+		int end_time = 10000;
+
+		for (int i = start_time; i <= end_time; i += 1000) {
+			try {
+				heartRateMonitor.addHeartRate(start_heartrate, i);
+				start_heartrate += 3;
+			} catch (NoNegativeHeartRatesPossibleException ex) {
 				fail(ex.getMessage());
 			}
-			
 		}
 
-		// increasing means that the pulses raises a (before defined) percentage
+		// increasing means that the pulse raises a (before defined) percentage
 		// in an (also before) defined time.
 		verify(mockHeartRateListener).onPulseIncreased();
+	}
 
+	@Test
+	public void onPulseDecreasedShouldBeExecutedOnDecreasingPulse() {
+
+		heartRateEvent.subscribe(mockHeartRateListener);
+
+		HeartRateMonitor heartRateMonitor = new DefaultHeartRateMonitor();
+		heartRateMonitor.subscribe(heartRateEvent);
+
+		// add heartrates which are decreasing from 90 to 60 (= 50%) over an
+		// interval of 5 seconds to our monitor
+		int start_heartrate = 90;
+		int start_time = 0;
+		int end_time = 10000;
+
+		for (int i = start_time; i <= end_time; i += 1000) {
+			try {
+				heartRateMonitor.addHeartRate(start_heartrate, i);
+				start_heartrate -= 3;
+			} catch (NoNegativeHeartRatesPossibleException ex) {
+				fail(ex.getMessage());
+			}
+		}
+
+		// decreasing means that the pulse falls a (before defined) percentage
+		// in an (also before) defined time.
+		verify(mockHeartRateListener).onPulseDecreased();
 	}
 
 	@Test
