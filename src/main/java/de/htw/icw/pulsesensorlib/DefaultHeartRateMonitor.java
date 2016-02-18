@@ -346,10 +346,6 @@ public class DefaultHeartRateMonitor implements HeartRateMonitor {
 		subscribers.remove(heartRateEvent);
 	}
 
-	/**
-	 * notifies all subscribers that their was an update. an update occurs if a
-	 * heartrate was added
-	 */
 	private void notifySubscribers() {
 
 		for (HeartRateEvent heartRateEvent : subscribers) {

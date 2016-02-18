@@ -105,9 +105,9 @@ public class DefaultHeartRateEvent implements HeartRateEvent {
 		double lastMeasuredHeartRate = heartRateMonitor.getLastHeartRate();
 
 		for (int i = heartRates.size() - 2; i >= 0; i--) {
-			// ((100 / new_pulse) * old_pulse) - 100
+			// 100 - (100 /  old_pulse * new_pulse)
 			if (heartRates.get(i) > 0) {
-				if (((100 / lastMeasuredHeartRate) * heartRates.get(i)) - 100 >= increaseDecreaseTresholdPercentage) {
+				if (100 - (100 / heartRates.get(i) * lastMeasuredHeartRate) >= increaseDecreaseTresholdPercentage) {
 					notifyOnPulseDecreased();
 					return;
 				}

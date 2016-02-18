@@ -153,14 +153,14 @@ public class DefaultHeartRateEventTest {
 
 		// add heartrates which are decreasing from 90 to 60 (= 50%) over an
 		// interval of 5 seconds to our monitor
-		int start_heartrate = 90;
+		int start_heartrate = 100;
 		int start_time = 0;
-		int end_time = 10000;
+		int end_time = 5000;
 
 		for (int i = start_time; i <= end_time; i += 1000) {
 			try {
 				heartRateMonitor.addHeartRate(start_heartrate, i);
-				start_heartrate -= 3;
+				start_heartrate -= 10;
 			} catch (NoNegativeHeartRatesPossibleException ex) {
 				fail(ex.getMessage());
 			}
