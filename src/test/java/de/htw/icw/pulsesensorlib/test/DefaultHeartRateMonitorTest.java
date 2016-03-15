@@ -539,7 +539,6 @@ public class DefaultHeartRateMonitorTest {
 		Assert.assertEquals(
 				"getMeasuredHeartRatesOverClosedInterval should return an empty list if the beginning time is bigger than the end time of the interval",
 				new ArrayList<Double>(), actualHeartRates);
-
 	}
 
 	@Test

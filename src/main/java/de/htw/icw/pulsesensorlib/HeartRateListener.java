@@ -6,8 +6,8 @@ public interface HeartRateListener {
     void onLowPulse(double pulse);    
     void onNoPulse();
     void onDisconnected();
-    void onPulseIncreased();
-    void onPulseDecreased();
+    void onPulseIncreased(double startHeartRate, double endHeartRate);
+    void onPulseDecreased(double startHeartRate, double endHeartRate);
 	void onSubscribed();
 	void onUnsubscribed();
     
