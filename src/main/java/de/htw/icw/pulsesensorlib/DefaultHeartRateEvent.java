@@ -81,12 +81,22 @@ public class DefaultHeartRateEvent implements HeartRateEvent {
 		double lastMeasuredHeartRate = heartRateMonitor.getLastHeartRate();
 
 		for (int i = heartRates.size() - 2; i >= 0; i--) {
-			// ((100 / old_pulse) * new_pulse) - 100
 			double testingHeartRate = heartRates.get(i);
 			if (testingHeartRate > 0) {
-				if (((100 / testingHeartRate) * lastMeasuredHeartRate) - 100 >= increaseDecreaseTresholdPercentage) {
+				// ((100 / old_pulse) * new_pulse) - 100
+				double increaseingPercantage = ((100 / testingHeartRate) * lastMeasuredHeartRate) - 100;
+				if (increaseingPercantage >= increaseDecreaseTresholdPercentage) {
+
+					// get the corresponding timestamps to heartrates (only
+					// needed if there was an actual increase)
+					List<Long> timestamps = heartRateMonitor
+							.getMeasuredTimestampsOfLastSeconds(observationTimeInMilliseconds);
+					long startTimestamp = timestamps.get(i);
+					long endTimestamp = heartRateMonitor.getLastTimestamp();
+
 					notifyOnPulseIncreased(testingHeartRate,
-							lastMeasuredHeartRate);
+							lastMeasuredHeartRate, startTimestamp,
+							endTimestamp, increaseingPercantage);
 					return;
 				}
 			}
@@ -94,9 +104,11 @@ public class DefaultHeartRateEvent implements HeartRateEvent {
 	}
 
 	private void notifyOnPulseIncreased(double startHeartRate,
-			double endHeartRate) {
+			double endHeartRate, long startTimestamp, long endTimestamp,
+			double increaseingPercantage) {
 		for (HeartRateListener heartRateListener : subscribers) {
-			heartRateListener.onPulseIncreased(startHeartRate, endHeartRate);
+			heartRateListener.onPulseIncreased(startHeartRate, endHeartRate,
+					startTimestamp, endTimestamp, increaseingPercantage);
 		}
 	}
 
@@ -108,12 +120,22 @@ public class DefaultHeartRateEvent implements HeartRateEvent {
 		double lastMeasuredHeartRate = heartRateMonitor.getLastHeartRate();
 
 		for (int i = heartRates.size() - 2; i >= 0; i--) {
-			// 100 - (100 / old_pulse * new_pulse)
 			double testingHeartRate = heartRates.get(i);
 			if (testingHeartRate > 0) {
-				if (100 - (100 / testingHeartRate * lastMeasuredHeartRate) >= increaseDecreaseTresholdPercentage) {
+				// 100 - (100 / old_pulse * new_pulse)
+				double decreasingPercentage = (100 - (100 / testingHeartRate * lastMeasuredHeartRate));
+				if (decreasingPercentage >= increaseDecreaseTresholdPercentage) {
+
+					// get the corresponding timestamps to heartrates (only
+					// needed if there was an actual increase)
+					List<Long> timestamps = heartRateMonitor
+							.getMeasuredTimestampsOfLastSeconds(observationTimeInMilliseconds);
+					long startTimestamp = timestamps.get(i);
+					long endTimestamp = heartRateMonitor.getLastTimestamp();
+
 					notifyOnPulseDecreased(testingHeartRate,
-							lastMeasuredHeartRate);
+							lastMeasuredHeartRate, startTimestamp,
+							endTimestamp, decreasingPercentage);
 					return;
 				}
 			}
@@ -121,9 +143,9 @@ public class DefaultHeartRateEvent implements HeartRateEvent {
 	}
 
 	private void notifyOnPulseDecreased(double startHeartRate,
-			double endHeartRate) {
+			double endHeartRate, long startTimestamp, long endTimestamp, double decreasingPercentage) {
 		for (HeartRateListener heartRateListener : subscribers) {
-			heartRateListener.onPulseDecreased(startHeartRate, endHeartRate);
+			heartRateListener.onPulseDecreased(startHeartRate, endHeartRate, startTimestamp, endTimestamp, decreasingPercentage);
 		}
 	}
 

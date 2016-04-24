@@ -143,7 +143,7 @@ public class DefaultHeartRateEventTest {
 
 		// increasing means that the pulse raises a (before defined) percentage
 		// in an (also before) defined time.
-		verify(mockHeartRateListener).onPulseIncreased(80,88);
+		verify(mockHeartRateListener).onPulseIncreased(80,88,0,4000,10);
 	}
 
 	@Test
@@ -173,7 +173,7 @@ public class DefaultHeartRateEventTest {
 
 		// increasing means that the pulse raises a (before defined) percentage
 		// in an (also before) defined time.
-		verify(mockHeartRateListener).onPulseIncreased(60,90);
+		verify(mockHeartRateListener).onPulseIncreased(60,90,0,10000,50);
 	}
 
 	@Test
@@ -201,6 +201,6 @@ public class DefaultHeartRateEventTest {
 
 		// decreasing means that the pulse falls a (before defined) percentage
 		// in an (also before) defined time.
-		verify(mockHeartRateListener).onPulseDecreased(100,50);
+		verify(mockHeartRateListener).onPulseDecreased(100,50,0,10000,50);
 	}
 }
